@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de Carreira PRO</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: white;
+      color: #333;
+    }
+
+    #titulo-pagina {
+      font-family: 'Cascadia Code', 'Courier New', monospace;
+      font-size: 2.5rem;
+      font-weight: bold;
+      letter-spacing: 0.15em;
+      color: #00b060;
+      text-align: center;
+      margin: 0;
+      padding-bottom: 20px;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      max-width: 600px;
+      line-height: 1.5;
+      margin: 20px 0;
+    }
+
+    .extra {
+      font-size: 1rem;
+      color: gray;
+      margin-top: 10px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      background-color: #00b060;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #00994d;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="titulo-pagina">Gerador de Carreira PRO</h1>
+
+  <div class="container">
+    <h1 id="texto-central">Clique no botão para gerar sua carreira!</h1>
+    <p id="extra-1" class="extra"></p>
+    <p id="extra-2" class="extra"></p>
+    <button onclick="gerarTexto()">Gerar Carreira</button>
+  </div>
+
+  <script>
+    const textosPrincipais = [
+"⚽ - Seu time será o Barcelona.<br>📐 - A formação do seu time será 3-5-2.<br>🎯 - Seu objetivo será ganhar a<br>tríplice coroa.<br>🔒 - Porém, seu time não contará com jogadores<br>europeus, para provar que o tiki-taka<br>é universal.",
+"⚽ - Seu time será o Chelsea.<br>📐 - A formação do seu time será 4-2-4.<br>🎯 - Seu objetivo será ganhar a<br>tríplice coroa.<br>🔒 - Porém, você se aproveitará do elenco<br>atual, não contratando nenhum jogador,<br>fazendo raiva ao Todd Boehly.",
+"⚽ - Seu time será o Port Vale.<br>📐 - A formação do seu time será 4-5-1.<br>🎯 - Seu objetivo será levar o<br>time para Premier League.<br>🔒 - Porém, você manterá Antwoine Hackford,<br>aquele mesmo, como titular absoluto<br>nesse trajeto.",
+"⚽ - Seu time será o Borussia Dortmund.<br>📐 - A formação do seu time será 4-3-3 ofensivo.<br>🎯 - Seu objetivo será ganhar a<br>liga e a copa em uma mesma temporada,<br>mostrando quem manda na Alemanha.<br>🔒 - Porém, seu elenco nunca conterá jogadores com mais de 23 anos.",
+"⚽ - Seu time será o Paris Saint-Germain.<br>📐 - A formação do seu time será 4-2-3-1.<br>🎯 - Seu objetivo será finalmente<br>conquistar a Champions League, provando<br>que o problema era o Mbappé.<br>🔒 - Porém, você só poderá usar jogadores<br>franceses no time titular (Mbappé não vale).",
+"⚽ - Seu time será o Napoli.<br>📐 - A formação do seu time será 5-3-2.<br>🎯 - Seu objetivo será conquistar a liga<br>e a Champions na mesma temporada.<br>🔒 - Porém, seu time titular conterá<br>apenas jogadores argentinos, fazendo<br>orgulho ao Maradona.",
+"⚽ - Seu time será o Bayer Leverkusen.<br>📐 - A formação do seu time será 4-3-2-1.<br>🎯 - Seu objetivo será fazer um<br>de seus jogadores Bola de Ouro.<br>🔒 - Porém, você só contratará jogadores<br>da Bundesliga, fazendo inveja ao<br>outro Bayern.",
+"⚽ - Seu time será o Celtic.<br>📐 - A formação do seu time será 3-4-3.<br>🎯 - Seu objetivo será ganhar a Champions League pela segunda vez na história do clube.<br>🔒 - Porém, o elenco titular deverá ter<br>ao menos cinco jogadores escoceses,<br>para manter a tradição local.",
+"⚽ - Seu time será o Atlético de Madrid.<br>📐 - A formação do seu time será 5-4-1.<br>🎯 - Seu objetivo será sofrer menos<br>de 18 gols em uma edição de La Liga,<br>batendo o própio recorde na competição.<br>🔒 - Pórem, seu time titular contará apenas<br>com jogadores argentinos.",
+"⚽ - Seu time será o Valencia.<br>📐 - A formação do seu time será 4-3-3 equilibrado.<br>🎯 - Seu objetivo será ganhar<br>duas La Ligas seguidas.<br>🔒 - Porém, seu time titular contará apenas com<br>jogadores negros, como pedido de desculpas<br>ao que fizeram com o Vini.",
+"⚽ - Seu time será o RB Leipzig.<br>📐 - A formação do seu time será 4-2-2-2.<br>🎯 - Seu objetivo será ganhar a Champions<br>pela primeira vez na história do clube.<br>🔒 - Porém, você só poderá contratar jogadores<br>que jogam fora das sete principais ligas europeias,<br>para abusar da filosofia do clube.",
+"⚽ - Seu time será o Wolverhampton.<br>📐 - A formação do seu time será 4-4-2.<br>🎯 - Seu objetivo será fazer um de<br>seus jogadores Bola de Ouro.<br>🔒 - Porém, seu elenco titular contará apenas<br>com jogadores portugueses, para reforçar o<br>histórico atual do time.",
+"⚽ - Seu time será o Liverpool.<br>📐 - A formação do seu time será 4-3-1-2.<br>🎯 - Seu objetivo será ganhar a liga<br>invicto, igualando o feito do Arsenal de 2003/2004.<br>🔒 - Porém, seu time não contará com<br>jogadores ingleses, para provar que<br>o Liverpool não depende da Inglaterra.",
+"⚽ - Seu time será o Arsenal.<br>📐 - A formação do seu time será 4-2-3-1.<br>🎯 - Seu objetivo será vencer a<br>liga após mais de vinte anos.<br>🔒 - Porém, no seu time titular só terá jogadores<br>com a partir de 30 anos, para ver se assim<br>esse time cresce.",
+"⚽ - Seu time será o Sporting.<br>📐 - A formação do seu time será 4-4-1-1.<br>🎯 - Seu objetivo será formar um atacante<br>português e o fazer Bola de Ouro.<br>🔒 - Porém, você só poderá contratar jogadores<br>com a partir de 30 anos, para passar<br>experiência ao jovem.",
+"⚽ - Seu time será o Ajax.<br>📐 - A formação do seu time será 5-2-1-2.<br>🎯 - Seu objetivo será ganhar a Champions<br>e provar que o futebol total ainda vive.<br>🔒 - Porém, seu time titular deverá ser formado<br>exclusivamente por jogadores formados na base,<br>em homenagem ao craque Johan Cruyff.",
+"⚽ - Seu time será o Milan.<br>📐 - A formação do seu time será 4-4-2.<br>🎯 - Seu objetivo será ganhar a Champions<br>e a Serie A na mesma temporada.<br>🔒 - Porém, seu time titular deverá contar apenas<br>com jogadores italianos e três holandeses, fazendo<br>mémoria ao histórico Milan dos Holandeses.",
+"⚽ - Seu time será o PSV.<br>📐 - A formação do seu time será 4-2-4.<br>🎯 - Seu objetivo será ter os dois principais<br>artilheiros em uma edição da liga.<br>🔒 - Porém, esses dois serão brasileiros, em<br>homenagem ao legado de Romário e Ronaldo,<br>que brilharam no clube.",
+"⚽ - Seu time será o Leicester City.<br>📐 - A formação do seu time será 4-2-2-2.<br>🎯 - Seu objetivo será repetir o milagre<br>de 2015-16 e ganhar a Premier League novamente.<br>🔒 - Porém, você só contratará jogadores que não<br>jogam na primeira divisão de seu país,<br>destacando o espírito underdog.",
+"⚽ - Seu time será o Real Madrid.<br>📐 - A formação do seu time será 4-3-3 equilibrado.<br>🎯 - Seu objetivo será fazer mais<br>de 121 gols em uma edição de La Liga,<br>quebrando o próprio recorde histórico.<br>🔒 - Porém, você não contratará nenhum jogador,<br>provando que o elenco já é o melhor possível."
+    ];
+    
+    const textosExtras1 = [
+"✨ - Pelo menos um de seus jogadores de ataque deverá ter o PlayStyle de Veloz. (opcional)",
+"✨ - Pelo menos um de seus jogadores de ataque deverá ter o PlayStyle de Firula. (opcional)",
+"✨ - Pelo menos um de seus jogadores de ataque deverá ter o PlayStyle de Malvadeza. (opcional)",
+"✨ - Pelo menos um de seus jogadores de ataque deverá ter o PlayStyle de Chute colocado. (opcional)",
+"✨ - Pelo menos um de seus jogadores de ataque deverá ter o PlayStyle de Cavadinha. (opcional)",
+"✨ - Pelo menos um de seus jogadores de ataque deverá ter o PlayStyle de Pombo sem asas. (opcional)",
+"✨ - Pelo menos um de seus jogadores de ataque deverá ter o PlayStyle de Bola parada. (opcional)",
+"✨ - Pelo menos um de seus jogadores de ataque deverá ter o PlayStyle de Testada firme. (opcional)",
+"✨ - Pelo menos um de seus jogadores de ataque deverá ter o PlayStyle de Pé de vento. (opcional)",
+"✨ - Pelo menos um de seus jogadores de ataque deverá ter o PlayStyle de Incansável. (opcional)",
+"✨ - Pelo menos um de seus jogadores de ataque deverá ter o PlayStyle de Trivela. (opcional)",
+"✨ - Pelo menos um de seus jogadores de ataque deverá ter o PlayStyle de Acrobata. (opcional)",
+"✨ - Pelo menos um de seus jogadores de ataque deverá ter o PlayStyle de Disputa aérea. (opcional)",
+"✨ - Pelo menos um de seus pontas deverá ter o PlayStyle de Veloz. (opcional)",
+"✨ - Pelo menos um de seus pontas deverá ter o PlayStyle de Firula. (opcional)",
+"✨ - Pelo menos um de seus pontas deverá ter o PlayStyle de Malvadeza. (opcional)",
+"✨ - Pelo menos um de seus pontas deverá ter o PlayStyle de Chute colocado. (opcional)",
+"✨ - Pelo menos um de seus pontas deverá ter o PlayStyle de Bola parada. (opcional)",
+"✨ - Pelo menos um de seus pontas deverá ter o PlayStyle de Pé de vento. (opcional)",
+"✨ - Pelo menos um de seus pontas deverá ter o PlayStyle de Incansável. (opcional)",
+"✨ - Pelo menos um de seus pontas deverá ter o PlayStyle de Trivela. (opcional)",
+"✨ - Seus jogadores de ataque deverão ter o PlayStyle de Veloz. (opcional)",
+"✨ - Seus jogadores de ataque deverão ter o PlayStyle de Pé de vento. (opcional)",
+"✨ - Seus pontas deverão ter o PlayStyle de Veloz. (opcional)",
+"✨ - Seus pontas deverão ter o PlayStyle de Firula. (opcional)",
+"✨ - Seus pontas deverão ter o PlayStyle de Malvadeza. (opcional)",
+"✨ - Seus pontas deverão ter o PlayStyle de Chute colocado. (opcional)",
+"✨ - Seus pontas deverão ter o PlayStyle de Pé de vento. (opcional)",
+"✨ - Seus pontas deverão ter o PlayStyle de Incansável. (opcional)"
+];
+    const textosExtras2 = [
+"🚑 - Lesões: use Frequência 20 e Gravidade 100. (opcional)", 
+"🚑 - Lesões: use Frequência 30 e Gravidade 90. (opcional)",  
+"🚑 - Lesões: use Frequência 30 e Gravidade 100. (opcional)",  
+"🚑 - Lesões: use Frequência 40 e Gravidade 80. (opcional)",  
+"🚑 - Lesões: use Frequência 40 e Gravidade 90. (opcional)",  
+"🚑 - Lesões: use Frequência 40 e Gravidade 100. (opcional)",  
+"🚑 - Lesões: use Frequência 50 e Gravidade 70. (opcional)",  
+"🚑 - Lesões: use Frequência 50 e Gravidade 80. (opcional)",  
+"🚑 - Lesões: use Frequência 50 e Gravidade 90. (opcional)",  
+"🚑 - Lesões: use Frequência 50 e Gravidade 100. (opcional)",  
+"🚑 - Lesões: use Frequência 60 e Gravidade 60. (opcional)",  
+"🚑 - Lesões: use Frequência 60 e Gravidade 70. (opcional)",  
+"🚑 - Lesões: use Frequência 60 e Gravidade 80. (opcional)",  
+"🚑 - Lesões: use Frequência 60 e Gravidade 90. (opcional)",  
+"🚑 - Lesões: use Frequência 60 e Gravidade 100. (opcional)",  
+"🚑 - Lesões: use Frequência 70 e Gravidade 50. (opcional)",  
+"🚑 - Lesões: use Frequência 70 e Gravidade 60. (opcional)",  
+"🚑 - Lesões: use Frequência 70 e Gravidade 70. (opcional)",  
+"🚑 - Lesões: use Frequência 70 e Gravidade 80. (opcional)",  
+"🚑 - Lesões: use Frequência 70 e Gravidade 90. (opcional)",  
+"🚑 - Lesões: use Frequência 70 e Gravidade 100. (opcional)",  
+"🚑 - Lesões: use Frequência 80 e Gravidade 40. (opcional)", 
+"🚑 - Lesões: use Frequência 80 e Gravidade 50. (opcional)",  
+"🚑 - Lesões: use Frequência 80 e Gravidade 60. (opcional)",  
+"🚑 - Lesões: use Frequência 80 e Gravidade 70. (opcional)",  
+"🚑 - Lesões: use Frequência 80 e Gravidade 80. (opcional)",  
+"🚑 - Lesões: use Frequência 80 e Gravidade 90. (opcional)",  
+"🚑 - Lesões: use Frequência 80 e Gravidade 100. (opcional)",  
+"🚑 - Lesões: use Frequência 90 e Gravidade 30. (opcional)",  
+"🚑 - Lesões: use Frequência 90 e Gravidade 40. (opcional)",  
+"🚑 - Lesões: use Frequência 90 e Gravidade 50. (opcional)",  
+"🚑 - Lesões: use Frequência 90 e Gravidade 60. (opcional)",  
+"🚑 - Lesões: use Frequência 90 e Gravidade 70. (opcional)",  
+"🚑 - Lesões: use Frequência 90 e Gravidade 80. (opcional)",  
+"🚑 - Lesões: use Frequência 90 e Gravidade 90. (opcional)",  
+"🚑 - Lesões: use Frequência 90 e Gravidade 100. (opcional)",  
+"🚑 - Lesões: use Frequência 100 e Gravidade 20. (opcional)",  
+"🚑 - Lesões: use Frequência 100 e Gravidade 30. (opcional)",  
+"🚑 - Lesões: use Frequência 100 e Gravidade 40. (opcional)",  
+"🚑 - Lesões: use Frequência 100 e Gravidade 50. (opcional)",  
+"🚑 - Lesões: use Frequência 100 e Gravidade 60. (opcional)",  
+"🚑 - Lesões: use Frequência 100 e Gravidade 70. (opcional)",  
+"🚑 - Lesões: use Frequência 100 e Gravidade 80. (opcional)",  
+"🚑 - Lesões: use Frequência 100 e Gravidade 90. (opcional)",  
+"🚑 - Lesões: use Frequência 100 e Gravidade 100. (opcional)" 
+    ];
+    
+    let textoAtual = "", extra1Atual = "", extra2Atual = "";
+    
+    function gerarTexto() {
+      let novoTexto, novoExtra1, novoExtra2;
+      do {
+        novoTexto = textosPrincipais[Math.floor(Math.random() * textosPrincipais.length)];
+      } while (novoTexto === textoAtual);
+      do {
+        novoExtra1 = textosExtras1[Math.floor(Math.random() * textosExtras1.length)];
+      } while (novoExtra1 === extra1Atual);
+      do {
+        novoExtra2 = textosExtras2[Math.floor(Math.random() * textosExtras2.length)];
+      } while (novoExtra2 === extra2Atual);
+      
+      textoAtual = novoTexto;
+      extra1Atual = novoExtra1;
+      extra2Atual = novoExtra2;
+      
+      document.getElementById("texto-central").innerHTML = textoAtual;
+      document.getElementById("extra-1").innerHTML = extra1Atual;
+      document.getElementById("extra-2").innerHTML = extra2Atual;
+    }
+  </script>
+</body>
+</html>
